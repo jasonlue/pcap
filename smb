@@ -1,0 +1,2 @@
+cd ~/trex
+sudo ./t-rex-64 -f ~/pcap/smb.yaml -m 1 -l 0 -c 1 -d 60
