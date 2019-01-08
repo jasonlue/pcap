@@ -8,9 +8,34 @@
           dual_port_mask : "1.0.0.0" 
           tcp_aging      : 0
           udp_aging      : 0
-  cap_ipg    : true
+  cap_ipg    : false
   cap_info : 
-     - name: /home/trex/pcap/smb-on-windows-10-192.168.199.132:49675-tcp-192.168.199.133:445.pcapng
+     - name: /home/trex/pcap/cap2/smb3-aes-128-ccm-10.160.64.139:38166-tcp-10.160.65.202:445.pcap
+       cps : 1
+       ipg : 10000
+       rtt : 10000
+       w   : 1
+     - name: /home/trex/pcap/cap2/smb-direct-man-in-the-middle-02-reassemble-frames9-192.168.2.1:5445-tcp-192.168.2.254:35325.pcap
+       cps : 1
+       ipg : 10000
+       rtt : 10000
+       w   : 1
+     - name: /home/trex/pcap/cap2/smb-browser-elections-192.168.123.2:138-udp-192.168.123.255:138.pcapng
+       cps : 1
+       ipg : 10000
+       rtt : 10000
+       w   : 1
+     - name: /home/trex/pcap/cap2/SMB-locking-192.168.199.1:139-tcp-192.168.199.133:49672.pcapng
+       cps : 1
+       ipg : 10000
+       rtt : 10000
+       w   : 1
+     - name: /home/trex/pcap/cap2/smb-on-windows-10-192.168.199.132:49675-tcp-192.168.199.133:445.pcapng
+       cps : 1
+       ipg : 10000
+       rtt : 10000
+       w   : 1
+     - name: /home/trex/pcap/cap2/smb-on-windows-10-192.168.199.132:137-udp-192.168.199.255:137.pcapng
        cps : 1
        ipg : 10000
        rtt : 10000
