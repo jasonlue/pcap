@@ -55,6 +55,11 @@ EOL
 #turn opt on to ignore empty directory.
 shopt -s nullglob
 for f in $PCAPD/*; do
+    #ignore files without udp or tcp.
+    if  [[ -n ${f##*tcp*} && -n ${f##*udp*} ]]; then
+        continue
+    fi
+
     cat >> $YAML << EOL
      - name: $f
        cps : 1
