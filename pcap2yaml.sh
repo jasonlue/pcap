@@ -6,26 +6,34 @@
 if (( $# != 1));then
     echo missing parameters. example:
     echo "$0 <pcap file>"
+    exit 1
 fi
 
-PCAP=$1
+#get full path of pcap file.
+PCAP=`readlink -f $1`
 if [ ! -f $PCAP ]; then
     echo "$PCAP: file doesn't exist"
+    exit 1
 fi
 
-#create fresh $PCAPD folder under current folder.
-PCAPD="$PCAP.d"
+#create fresh $PCAPD folder under current folder. folder is the pcap name without last extension
+PCAPD=${PCAP%.*}
 echo "create a fresh directory: $PCAPD"
 rm -rf $PCAPD
 mkdir $PCAPD
 
+#PCAPCMD in the same directory of this script.
+SCRIPT=`readlink -f ${0}`
+SCRIPT_DIR=${SCRIPT%/*}
+PCAP_CMD="${SCRIPT_DIR}/pcap"
 #split pcap into different flows.
 echo "Split $PCAP into seperate flows under $PCAPD"
-cd $PCAPD
-../pcap -s "../$PCAP"
-cd ..
+echo "${PCAP_CMD} -s ${PCAP}"
+pushd $PCAPD
+$PCAP_CMD -s $PCAP
+popd
 
-YAML="$PCAP.yaml"
+YAML="$PCAPD.yaml"
 rm -f $YAML
 echo "generate $YAML"
 cat > $YAML << EOL
@@ -44,6 +52,8 @@ cat > $YAML << EOL
 EOL
 
 #loop through each file under $PCAPD
+#turn opt on to ignore empty directory.
+shopt -s nullglob
 for f in $PCAPD/*; do
     cat >> $YAML << EOL
      - name: $f
@@ -54,4 +64,3 @@ for f in $PCAPD/*; do
 EOL
 
 done
-
