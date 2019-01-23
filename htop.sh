@@ -1,1 +1,1 @@
-htop -p $(pgrep bro | xargs | tr ' ' ',')
+htop -p $(pgrep ^bro$ | xargs | tr ' ' ',')
