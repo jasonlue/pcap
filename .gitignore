@@ -4,9 +4,4 @@
 1M.pcap
 10M.pcap
 100M.pcap
-bro.1K
-bro.10K
-bro.100K
-bro.1M
-bro.10M
-bro.100M
+bro-1*
