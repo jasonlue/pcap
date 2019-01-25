@@ -11,22 +11,24 @@ if (($# != 2)); then
     help
 fi
 
+bro="bro -Qr ~/pcap/$1.pcap site/local.bro misc/loaded-scripts misc/profiling > o.log 2>&1"
 case $2 in
     prof)
-        cmd="HEAPPROFILE=hp ";;
+        cmd="HEAPPROFILE=bro $bro && google-pprof --callgrind /usr/local/bro/bin/bro bro.*.heap > bro.heap";;
     massif)
-        cmd="valgrind --tool=massif ";;
+        cmd="valgrind --tool=massif $bro";;
     run)
-        cmd="";;
+        cmd=$bro;;
     *)
         help;;
 esac
 
-cmd+="bro -Qr ~/pcap/$1.pcap site/local.bro misc/loaded-scripts misc/profiling policy/protocols/smb > o.log 2>&1"
+cmd+=
+
 rm -rf bro-$1-$2
 mkdir bro-$1-$2
 pushd bro-$1-$2
 echo "Running $cmd"
 #$cmd interprets special characters incorrectly. eval avoid it.
-eval $cmd
+time eval $cmd
 popd
