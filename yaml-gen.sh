@@ -73,11 +73,18 @@ done
 #generate ${PCAPD}.sh to run traffic from ${PCAPD}.yaml
 SCRIPT="$PCAPD.sh"
 
-cat > $SCRIPT << EOL
+cat > $SCRIPT << "EOF"
+m=1000
+if (($# == 1)); then
+	m=$1
+fi
+EOF
+
+cat >> $SCRIPT << EOF
 pushd ../trex
-sudo ./t-rex-64 -f $YAML -m 1000 -l 0 -d 86400
+sudo ./t-rex-64 -f $YAML -m \$m -l 0 -d 86400
 popd
-EOL
+EOF
 
 chmod a+x $SCRIPT
 
