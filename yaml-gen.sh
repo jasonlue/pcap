@@ -69,3 +69,15 @@ for f in $PCAPD/*; do
 EOL
 
 done
+
+#generate ${PCAPD}.sh to run traffic from ${PCAPD}.yaml
+SCRIPT="$PCAPD.sh"
+
+cat > $SCRIPT << EOL
+pushd ../trex
+sudo ./t-rex-64 -f $YAML -m 1000 -l 0 -d 86400
+popd
+EOL
+
+chmod a+x $SCRIPT
+
